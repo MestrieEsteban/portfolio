@@ -3,285 +3,284 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#080b12" />
-  <meta name="description" content="Portfolio d'Esteban Mestrie — intelligence artificielle générative, interfaces interactives et projets logiciels." />
-  <meta property="og:title" content="Esteban Mestrie — Generative AI & Creative Engineering" />
-  <meta property="og:description" content="Des systèmes d'IA aux interfaces 3D, découvrez mes projets, expérimentations et produits open source." />
+  <meta name="theme-color" content="#f2efe7" />
+  <meta name="description" content="Portfolio d'Esteban Mestrie — logiciels, IA générative, interfaces 3D, Home Assistant et projets open source." />
+  <meta property="og:title" content="Esteban Mestrie — Software, AI & experiments" />
+  <meta property="og:description" content="Des systèmes LLM aux maisons 3D : projets, produits open source et expérimentations." />
   <meta property="og:type" content="website" />
-  <title>Esteban Mestrie — Generative AI & Creative Engineering</title>
+  <title>Esteban Mestrie — Software, AI & experiments</title>
   <link rel="preconnect" href="https://api.github.com" />
   <link rel="preconnect" href="https://raw.githubusercontent.com" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+  <script type="module" src="scene.js"></script>
 </head>
 <body>
-  <div class="noise" aria-hidden="true"></div>
-  <div class="spotlight spotlight-a" aria-hidden="true"></div>
-  <div class="spotlight spotlight-b" aria-hidden="true"></div>
+  <div class="paper-noise" aria-hidden="true"></div>
 
   <header class="site-header" id="top">
     <a class="brand" href="#top" aria-label="Retour en haut">
-      <span class="brand-mark">EM</span>
-      <span class="brand-copy">
-        <strong>Esteban Mestrie</strong>
-        <small>Generative AI · Creative Engineering</small>
-      </span>
+      <strong>Esteban Mestrie</strong>
+      <span>software / ai / experiments</span>
     </a>
 
     <nav class="desktop-nav" aria-label="Navigation principale">
-      <a href="#featured" data-i18n="nav.featured">Sélection</a>
-      <a href="#archive" data-i18n="nav.archive">Tous les projets</a>
+      <a href="#selected" data-i18n="nav.selected">Projets</a>
+      <a href="#work" data-i18n="nav.work">Ce que je fais</a>
+      <a href="#archive" data-i18n="nav.archive">Archive</a>
       <a href="#journey" data-i18n="nav.journey">Parcours</a>
-      <a href="#about" data-i18n="nav.about">À propos</a>
     </nav>
 
     <div class="header-actions">
-      <button class="language-switch" id="languageSwitch" type="button" aria-label="Changer de langue">EN</button>
-      <a class="icon-link" href="https://github.com/MestrieEsteban" target="_blank" rel="noreferrer" aria-label="GitHub">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a11.5 11.5 0 0 0-3.63 22.41c.58.11.79-.25.79-.56v-2.2c-3.23.7-3.91-1.37-3.91-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.03 1.78 2.71 1.27 3.37.97.1-.75.4-1.27.74-1.56-2.58-.29-5.29-1.29-5.29-5.73 0-1.27.45-2.3 1.2-3.11-.12-.29-.52-1.47.11-3.07 0 0 .98-.31 3.16 1.19a10.96 10.96 0 0 1 5.76 0c2.18-1.5 3.16-1.19 3.16-1.19.63 1.6.23 2.78.11 3.07.75.81 1.2 1.84 1.2 3.11 0 4.45-2.72 5.43-5.3 5.72.42.36.79 1.07.79 2.16v3.21c0 .31.21.68.8.56A11.5 11.5 0 0 0 12 .7Z"/></svg>
-      </a>
+      <button class="text-button" id="languageSwitch" type="button" aria-label="Changer de langue">EN</button>
+      <a class="header-github" href="https://github.com/MestrieEsteban" target="_blank" rel="noreferrer">GitHub ↗</a>
     </div>
   </header>
 
   <main>
-    <section class="hero section-shell">
+    <section class="hero shell">
       <div class="hero-copy reveal">
-        <div class="eyebrow">
-          <span class="pulse-dot"></span>
-          <span data-i18n="hero.eyebrow">Je transforme des idées techniques en produits utilisables.</span>
+        <div class="hero-kicker">
+          <span class="scribble-dot" aria-hidden="true"></span>
+          <span data-i18n="hero.kicker">Développeur · IA générative · open source</span>
         </div>
+
         <h1>
           <span data-i18n="hero.line1">Je construis des</span>
-          <span class="hero-highlight" data-i18n="hero.line2">systèmes d'IA</span>
-          <span data-i18n="hero.line3">et des interfaces qui sortent du cadre.</span>
+          <em data-i18n="hero.line2">choses utiles</em>
+          <span data-i18n="hero.line3">et parfois un peu bizarres.</span>
         </h1>
+
         <p class="hero-lead" data-i18n="hero.lead">
-          Développeur spécialisé en intelligence artificielle générative, je conçois des applications fondées sur les LLM et j'explore en parallèle des expériences web, 3D et domotiques. Ce portfolio rassemble tout le chemin, des premiers exercices aux produits open source actuels.
+          Au travail, je conçois et industrialise des applications basées sur des modèles de langage. À côté, je transforme des idées en projets — maison 3D, interfaces domotiques, expériences web — juste pour voir jusqu'où elles peuvent aller.
         </p>
+
         <div class="hero-actions">
-          <a class="button button-primary" href="#featured">
-            <span data-i18n="hero.ctaPrimary">Découvrir la sélection</span>
-            <span aria-hidden="true">↘</span>
+          <a class="button button-dark" href="#selected">
+            <span data-i18n="hero.primary">Voir ce que je construis</span>
+            <span aria-hidden="true">↓</span>
           </a>
-          <a class="button button-ghost" href="#archive" data-i18n="hero.ctaSecondary">Explorer tous les projets</a>
+          <a class="button button-line" href="#archive" data-i18n="hero.secondary">Fouiller dans tous les projets</a>
+        </div>
+
+        <div class="hero-meta" aria-label="Statistiques GitHub">
+          <div><strong id="repoCount">—</strong><span data-i18n="stats.repos">dépôts publics</span></div>
+          <div><strong id="activeYears">—</strong><span data-i18n="stats.years">années de projets</span></div>
+          <div><strong id="starCount">—</strong><span data-i18n="stats.stars">étoiles GitHub</span></div>
         </div>
       </div>
 
-      <div class="hero-side reveal reveal-delay">
-        <div class="profile-orbit" aria-hidden="true">
-          <div class="orbit orbit-one"></div>
-          <div class="orbit orbit-two"></div>
-          <div class="profile-card">
-            <img src="https://avatars.githubusercontent.com/u/45850270?v=4" alt="" />
+      <div class="stage-wrap reveal reveal-delay">
+        <div class="stage" id="threeStage">
+          <canvas id="world" aria-label="Scène 3D interactive représentant mes projets"></canvas>
+          <div class="stage-topline">
+            <span>WEBGL / THREE.JS</span>
+            <span class="stage-status"><i></i> live</span>
+          </div>
+          <div class="stage-label stage-label-a">01 / HOME</div>
+          <div class="stage-label stage-label-b">02 / MUSIC</div>
+          <div class="stage-label stage-label-c">03 / CODE</div>
+          <div class="stage-caption">
+            <strong data-i18n="stage.title">Un petit bout de mon cerveau en WebGL.</strong>
+            <span data-i18n="stage.hint">Bouge la souris. La scène réagit.</span>
+          </div>
+        </div>
+        <div class="stage-sticker" aria-hidden="true">built<br>to play</div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="Sujets techniques">
+      <div class="ticker-track">
+        <span>THREE.JS</span><i>•</i><span>HOME ASSISTANT</span><i>•</i><span>LLM</span><i>•</i><span>RAG</span><i>•</i><span>PYTHON</span><i>•</i><span>TYPESCRIPT</span><i>•</i><span>REAL-TIME UI</span><i>•</i><span>DOCKER</span><i>•</i><span>OPEN SOURCE</span><i>•</i>
+        <span>THREE.JS</span><i>•</i><span>HOME ASSISTANT</span><i>•</i><span>LLM</span><i>•</i><span>RAG</span><i>•</i><span>PYTHON</span><i>•</i><span>TYPESCRIPT</span><i>•</i><span>REAL-TIME UI</span><i>•</i><span>DOCKER</span><i>•</i><span>OPEN SOURCE</span><i>•</i>
+      </div>
+    </section>
+
+    <section class="selected shell section" id="selected">
+      <div class="section-intro reveal">
+        <span class="section-index">01</span>
+        <div>
+          <p class="section-kicker" data-i18n="selected.kicker">Quelques projets dont je suis fier</p>
+          <h2 data-i18n="selected.title">Ceux que je montrerais en premier.</h2>
+        </div>
+        <p class="section-copy" data-i18n="selected.copy">Pas forcément les plus gros. Ceux qui racontent le mieux ce que j'aime construire aujourd'hui.</p>
+      </div>
+
+      <article class="project project-hero reveal">
+        <a class="project-media" href="https://github.com/MestrieEsteban/ha-owlnest" target="_blank" rel="noreferrer">
+          <img src="https://raw.githubusercontent.com/MestrieEsteban/ha-owlnest/main/assets/OnOffLight.gif" alt="Owlnest dans Home Assistant" loading="lazy" />
+          <span class="media-corner">2026 / OPEN SOURCE</span>
+        </a>
+        <div class="project-copy">
+          <div class="project-number">001</div>
+          <div>
+            <div class="project-eyebrow">Home Assistant · Three.js · 3D</div>
+            <h3>Owlnest</h3>
+            <p data-i18n="project.owlnest">Une maison 3D vivante dans Home Assistant. Lumières synchronisées, météo, vues caméra, interactions, éditeur visuel et moteur de règles : l'idée était de sortir du floorplan statique et d'en faire une vraie interface.</p>
+            <div class="tags"><span>Three.js</span><span>JavaScript</span><span>HACS</span><span>Real-time</span></div>
+            <a class="arrow-link" href="https://github.com/MestrieEsteban/ha-owlnest" target="_blank" rel="noreferrer"><span data-i18n="common.github">Voir sur GitHub</span><b>↗</b></a>
+          </div>
+        </div>
+      </article>
+
+      <div class="project-pair">
+        <article class="project project-small reveal">
+          <a class="project-media project-media-square groove-bg" href="https://github.com/MestrieEsteban/Groove-Card" target="_blank" rel="noreferrer">
+            <img src="https://raw.githubusercontent.com/MestrieEsteban/Groove-Card/master/assets/card.png" alt="Groove Card" loading="lazy" />
+            <span class="media-corner">2026 / HOME ASSISTANT</span>
+          </a>
+          <div class="project-copy compact">
+            <div class="project-number">002</div>
             <div>
-              <span class="profile-label" data-i18n="hero.profileLabel">Focus actuel</span>
-              <strong>Generative AI</strong>
-              <small>LLM · RAG · Search · APIs · Docker</small>
+              <div class="project-eyebrow">TypeScript · Lit · Music UI</div>
+              <h3>Groove Card</h3>
+              <p data-i18n="project.groove">Un media player transformé en platine vinyle animée : pochette, bras, seek, volume, plein écran, couleurs dynamiques et petits détails inutiles donc indispensables.</p>
+              <a class="arrow-link" href="https://github.com/MestrieEsteban/Groove-Card" target="_blank" rel="noreferrer"><span data-i18n="common.github">Voir sur GitHub</span><b>↗</b></a>
             </div>
           </div>
-          <div class="floating-chip chip-1">RAG</div>
-          <div class="floating-chip chip-2">Three.js</div>
-          <div class="floating-chip chip-3">Python</div>
-          <div class="floating-chip chip-4">Home Assistant</div>
-        </div>
-      </div>
-
-      <div class="hero-stats reveal">
-        <div class="stat"><strong id="repoCount">—</strong><span data-i18n="stats.projects">projets publics</span></div>
-        <div class="stat"><strong id="activeYears">—</strong><span data-i18n="stats.years">années de création</span></div>
-        <div class="stat"><strong id="starCount">—</strong><span data-i18n="stats.stars">étoiles GitHub</span></div>
-        <div class="stat"><strong>2</strong><span data-i18n="stats.worlds">univers : IA & créatif</span></div>
-      </div>
-    </section>
-
-    <section class="marquee" aria-label="Compétences">
-      <div class="marquee-track">
-        <span>GENERATIVE AI</span><i>✦</i><span>LLM</span><i>✦</i><span>RAG</span><i>✦</i><span>HYBRID SEARCH</span><i>✦</i><span>RERANKING</span><i>✦</i><span>PYTHON</span><i>✦</i><span>TYPESCRIPT</span><i>✦</i><span>THREE.JS</span><i>✦</i><span>HOME ASSISTANT</span><i>✦</i><span>DOCKER</span><i>✦</i><span>API</span><i>✦</i>
-        <span>GENERATIVE AI</span><i>✦</i><span>LLM</span><i>✦</i><span>RAG</span><i>✦</i><span>HYBRID SEARCH</span><i>✦</i><span>RERANKING</span><i>✦</i><span>PYTHON</span><i>✦</i><span>TYPESCRIPT</span><i>✦</i><span>THREE.JS</span><i>✦</i><span>HOME ASSISTANT</span><i>✦</i><span>DOCKER</span><i>✦</i><span>API</span><i>✦</i>
-      </div>
-    </section>
-
-    <section class="section-shell focus-section" id="featured">
-      <div class="section-heading reveal">
-        <div>
-          <span class="section-kicker" data-i18n="featured.kicker">Selected work / 01</span>
-          <h2 data-i18n="featured.title">Les projets qui me ressemblent le plus aujourd'hui.</h2>
-        </div>
-        <p data-i18n="featured.intro">Des projets pensés comme de vrais produits : une idée claire, une expérience utilisateur, des contraintes techniques et suffisamment de finition pour être utilisés par d'autres.</p>
-      </div>
-
-      <div class="featured-grid">
-        <article class="featured-card featured-large reveal">
-          <div class="project-visual owlnest-visual">
-            <img src="https://raw.githubusercontent.com/MestrieEsteban/ha-owlnest/main/assets/OnOffLight.gif" alt="Démonstration d'Owlnest" loading="lazy" />
-            <span class="visual-badge">FLAGSHIP · 2026</span>
-          </div>
-          <div class="featured-content">
-            <div class="project-topline"><span>01</span><span>Open source · Home Assistant · 3D</span></div>
-            <h3>Owlnest</h3>
-            <p data-i18n="featured.owlnest">Une maison interactive en 3D directement dans Home Assistant : éclairage temps réel, ancres interactives, éditeur visuel, météo dynamique, vues caméra et moteur de règles. Une alternative vivante aux floorplans statiques.</p>
-            <div class="tag-row"><span>Three.js</span><span>JavaScript</span><span>HACS</span><span>Real-time</span><span>3D UX</span></div>
-            <a class="project-link" href="https://github.com/MestrieEsteban/ha-owlnest" target="_blank" rel="noreferrer"><span data-i18n="common.viewProject">Voir le projet</span><span>↗</span></a>
-          </div>
         </article>
 
-        <article class="featured-card reveal">
-          <div class="project-visual groove-visual">
-            <img src="https://raw.githubusercontent.com/MestrieEsteban/Groove-Card/master/assets/card.png" alt="Groove Card" loading="lazy" />
-            <span class="visual-badge">HOME ASSISTANT · 2026</span>
-          </div>
-          <div class="featured-content">
-            <div class="project-topline"><span>02</span><span>UI component · Music</span></div>
-            <h3>Groove Card</h3>
-            <p data-i18n="featured.groove">Une carte Lovelace qui transforme un lecteur multimédia en platine vinyle animée, avec pochette dynamique, bras synchronisé, seek, volume, plein écran et intégration HACS.</p>
-            <div class="tag-row"><span>TypeScript</span><span>Lit</span><span>Vitest</span><span>GitHub Actions</span></div>
-            <a class="project-link" href="https://github.com/MestrieEsteban/Groove-Card" target="_blank" rel="noreferrer"><span data-i18n="common.viewProject">Voir le projet</span><span>↗</span></a>
-          </div>
-        </article>
-
-        <article class="featured-card reveal">
-          <div class="project-visual enuboard-visual">
+        <article class="project project-small reveal reveal-delay">
+          <a class="project-media project-media-square" href="https://github.com/MestrieEsteban/enuboard" target="_blank" rel="noreferrer">
             <img src="https://raw.githubusercontent.com/MestrieEsteban/enuboard/main/enuboard.png" alt="Enuboard" loading="lazy" />
-            <span class="visual-badge">EXPERIMENT · 2025</span>
-          </div>
-          <div class="featured-content">
-            <div class="project-topline"><span>03</span><span>Web experiment · Interface</span></div>
-            <h3>Enuboard</h3>
-            <p data-i18n="featured.enuboard">Une expérimentation d'interface indépendante qui illustre mon goût pour les petits produits autonomes, visuels et immédiatement utilisables dans le navigateur.</p>
-            <div class="tag-row"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>PWA</span></div>
-            <a class="project-link" href="https://github.com/MestrieEsteban/enuboard" target="_blank" rel="noreferrer"><span data-i18n="common.viewProject">Voir le projet</span><span>↗</span></a>
-          </div>
-        </article>
-
-        <article class="featured-card featured-wide reveal">
-          <div class="project-visual nasa-visual">
-            <img src="https://raw.githubusercontent.com/MestrieEsteban/nasa2day/master/public/images/screen.png" alt="NASA2DAY" loading="lazy" />
-            <span class="visual-badge">ARCHIVE · NASA API</span>
-          </div>
-          <div class="featured-content">
-            <div class="project-topline"><span>04</span><span>Early project · API</span></div>
-            <h3>NASA2DAY</h3>
-            <p data-i18n="featured.nasa">Un projet plus ancien autour des contenus de la NASA. Je le garde ici volontairement : le portfolio montre aussi le chemin parcouru, pas uniquement la dernière version de moi-même.</p>
-            <div class="tag-row"><span>Web</span><span>NASA API</span><span>Frontend</span></div>
-            <a class="project-link" href="https://github.com/MestrieEsteban/nasa2day" target="_blank" rel="noreferrer"><span data-i18n="common.viewProject">Voir le projet</span><span>↗</span></a>
+            <span class="media-corner">2025 / EXPERIMENT</span>
+          </a>
+          <div class="project-copy compact">
+            <div class="project-number">003</div>
+            <div>
+              <div class="project-eyebrow">HTML · CSS · JavaScript</div>
+              <h3>Enuboard</h3>
+              <p data-i18n="project.enuboard">Une petite expérimentation d'interface autonome. J'aime aussi les projets qui n'ont pas besoin de dix services et d'une architecture distribuée pour être intéressants.</p>
+              <a class="arrow-link" href="https://github.com/MestrieEsteban/enuboard" target="_blank" rel="noreferrer"><span data-i18n="common.github">Voir sur GitHub</span><b>↗</b></a>
+            </div>
           </div>
         </article>
       </div>
     </section>
 
-    <section class="section-shell ai-section" id="ai">
-      <div class="ai-card reveal">
-        <div class="ai-grid-bg" aria-hidden="true"></div>
-        <div class="ai-copy">
-          <span class="section-kicker" data-i18n="ai.kicker">Current focus / 02</span>
-          <h2 data-i18n="ai.title">Aujourd'hui, mon terrain principal est l'IA générative.</h2>
-          <p data-i18n="ai.copy">Je travaille sur le cycle complet d'applications fondées sur les modèles de langage : cadrage, architecture, intégration de modèles, RAG, recherche hybride, reranking, transcription, APIs, conteneurisation, déploiement, supervision et amélioration continue.</p>
-          <p class="ai-note" data-i18n="ai.note">Les projets professionnels sensibles ne sont pas publiés ici. Je préfère montrer les compétences et les choix d'architecture plutôt que d'exposer du code ou des informations qui n'ont pas vocation à être publiques.</p>
-        </div>
-        <div class="ai-system" aria-label="Architecture IA simplifiée">
-          <div class="system-node node-user">INPUT</div>
-          <div class="system-line line-a"></div>
-          <div class="system-node node-api">API</div>
-          <div class="system-line line-b"></div>
-          <div class="system-node node-search">HYBRID<br>SEARCH</div>
-          <div class="system-node node-rerank">RERANK</div>
-          <div class="system-node node-llm">LLM</div>
-          <div class="system-node node-observe">OBSERVABILITY</div>
-          <div class="system-line line-c"></div>
-          <div class="system-line line-d"></div>
-          <div class="system-pulse pulse-a"></div>
-          <div class="system-pulse pulse-b"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="archive-section" id="archive">
-      <div class="section-shell">
-        <div class="section-heading reveal">
+    <section class="work section" id="work">
+      <div class="shell">
+        <div class="section-intro reveal">
+          <span class="section-index">02</span>
           <div>
-            <span class="section-kicker" data-i18n="archive.kicker">Project library / 03</span>
-            <h2 data-i18n="archive.title">Tout le GitHub. Pas seulement les “beaux” projets.</h2>
+            <p class="section-kicker" data-i18n="work.kicker">Deux façons de construire</p>
+            <h2 data-i18n="work.title">La journée, et après.</h2>
           </div>
-          <p data-i18n="archive.intro">Cette bibliothèque se synchronise avec mes dépôts publics GitHub. Projets aboutis, exercices, essais, jeux, APIs, frontends : tout fait partie du parcours.</p>
+          <p class="section-copy" data-i18n="work.copy">Le même métier, pas toujours les mêmes contraintes. C'est probablement ce mélange qui me plaît le plus.</p>
         </div>
 
-        <div class="archive-toolbar reveal">
-          <label class="search-box">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="m21 21-4.3-4.3m2.3-5.2a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
-            <input id="projectSearch" type="search" placeholder="Rechercher un projet..." data-i18n-placeholder="archive.search" autocomplete="off" />
+        <div class="work-grid">
+          <article class="work-card work-day reveal">
+            <div class="work-card-top"><span>09:00</span><span data-i18n="work.dayLabel">CÔTÉ TRAVAIL</span></div>
+            <h3 data-i18n="work.dayTitle">Faire passer l'IA du prototype au vrai service.</h3>
+            <p data-i18n="work.dayCopy">Je conçois et industrialise des applications fondées sur des modèles de langage : architecture, intégration, RAG, recherche hybride, reranking, transcription, APIs, conteneurisation, déploiement et supervision.</p>
+            <ul class="work-list">
+              <li>LLM / RAG / Hybrid Search</li>
+              <li>Speech / APIs / Python</li>
+              <li>Docker / Observability</li>
+              <li data-i18n="work.secure">Environnements sécurisés</li>
+            </ul>
+            <p class="work-footnote" data-i18n="work.note">Les projets professionnels sensibles restent volontairement hors de GitHub.</p>
+          </article>
+
+          <article class="work-card work-night reveal reveal-delay">
+            <div class="work-card-top"><span>19:42</span><span data-i18n="work.nightLabel">CÔTÉ PERSO</span></div>
+            <h3 data-i18n="work.nightTitle">Suivre une idée parce qu'elle a l'air amusante.</h3>
+            <p data-i18n="work.nightCopy">3D, domotique, interfaces, jeux, petits outils : je commence souvent par “ce serait drôle si…” et quelques heures plus tard il y a un nouveau dépôt GitHub.</p>
+            <ul class="work-list">
+              <li>Three.js / WebGL</li>
+              <li>Home Assistant / HACS</li>
+              <li>TypeScript / Browser APIs</li>
+              <li>Open source / experiments</li>
+            </ul>
+            <div class="doodle" aria-hidden="true">
+              <span>idea</span><i>→</i><span>repo</span><i>→</i><span>oops</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="archive section" id="archive">
+      <div class="shell">
+        <div class="section-intro archive-heading reveal">
+          <span class="section-index">03</span>
+          <div>
+            <p class="section-kicker" data-i18n="archive.kicker">Le tiroir à projets</p>
+            <h2 data-i18n="archive.title">Tout est là. Même les vieux trucs.</h2>
+          </div>
+          <p class="section-copy" data-i18n="archive.copy">Projets étudiants, tests, APIs, apps mobiles, jeux et expériences. Je préfère montrer le chemin entier plutôt que faire semblant d'avoir commencé hier.</p>
+        </div>
+
+        <div class="archive-controls reveal">
+          <label class="search-field">
+            <span aria-hidden="true">⌕</span>
+            <input id="projectSearch" type="search" autocomplete="off" data-i18n-placeholder="archive.search" placeholder="Rechercher un projet..." />
           </label>
-          <div class="filter-row" id="filterRow" role="group" aria-label="Filtres projets">
-            <button class="filter active" type="button" data-filter="all" data-i18n="filters.all">Tout</button>
-            <button class="filter" type="button" data-filter="recent" data-i18n="filters.recent">Récent</button>
-            <button class="filter" type="button" data-filter="home" data-i18n="filters.home">Home Assistant</button>
-            <button class="filter" type="button" data-filter="web" data-i18n="filters.web">Web</button>
-            <button class="filter" type="button" data-filter="mobile" data-i18n="filters.mobile">Mobile</button>
-            <button class="filter" type="button" data-filter="learning" data-i18n="filters.learning">Learning</button>
+          <div class="filter-row" id="filterRow">
+            <button class="filter active" data-filter="all" data-i18n="filter.all">Tout</button>
+            <button class="filter" data-filter="recent" data-i18n="filter.recent">Récent</button>
+            <button class="filter" data-filter="home" data-i18n="filter.home">Home Assistant</button>
+            <button class="filter" data-filter="mobile" data-i18n="filter.mobile">Mobile</button>
+            <button class="filter" data-filter="games" data-i18n="filter.games">Jeux</button>
+            <button class="filter" data-filter="learning" data-i18n="filter.learning">Learning</button>
+          </div>
+          <div class="archive-actions">
+            <button class="plain-action" id="randomButton" type="button" data-i18n="archive.random">Projet au hasard ↝</button>
+            <button class="plain-action" id="sortButton" type="button">Plus récents ↓</button>
           </div>
         </div>
 
-        <div class="archive-meta reveal">
-          <span id="archiveCount" data-i18n="archive.loading">Chargement des projets…</span>
-          <button id="sortButton" class="sort-button" type="button" data-sort="newest"><span data-i18n="archive.sortNewest">Plus récents</span> ↓</button>
+        <div class="archive-meta">
+          <span id="archiveCount">—</span>
+          <a href="https://github.com/MestrieEsteban?tab=repositories" target="_blank" rel="noreferrer" data-i18n="archive.github">Ouvrir GitHub ↗</a>
         </div>
 
         <div class="project-grid" id="projectGrid" aria-live="polite">
-          <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
-        </div>
-
-        <div class="archive-error" id="archiveError" hidden>
-          <p data-i18n="archive.error">GitHub n'a pas répondu. La sélection principale reste disponible ci-dessus.</p>
-          <a href="https://github.com/MestrieEsteban?tab=repositories" target="_blank" rel="noreferrer" data-i18n="archive.openGithub">Voir tous les dépôts sur GitHub ↗</a>
+          <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
         </div>
       </div>
     </section>
 
-    <section class="section-shell journey-section" id="journey">
-      <div class="section-heading reveal">
+    <section class="journey shell section" id="journey">
+      <div class="section-intro reveal">
+        <span class="section-index">04</span>
         <div>
-          <span class="section-kicker" data-i18n="journey.kicker">Timeline / 04</span>
-          <h2 data-i18n="journey.title">Une progression visible, projet après projet.</h2>
+          <p class="section-kicker" data-i18n="journey.kicker">Chronologie GitHub</p>
+          <h2 data-i18n="journey.title">Depuis 2019, beaucoup trop de repos.</h2>
         </div>
-        <p data-i18n="journey.intro">Je ne cache pas les premiers essais. Ils donnent du contexte aux projets actuels et montrent comment mes centres d'intérêt ont évolué.</p>
+        <p class="section-copy" data-i18n="journey.copy">La timeline est générée depuis les dates réelles des dépôts publics. Les premiers projets ne sont pas les meilleurs, mais c'est justement le principe.</p>
       </div>
-      <div class="timeline reveal" id="timeline"></div>
+      <div class="timeline" id="timeline"></div>
     </section>
 
-    <section class="section-shell about-section" id="about">
-      <div class="about-layout">
-        <div class="about-title reveal">
-          <span class="section-kicker" data-i18n="about.kicker">About / 05</span>
-          <h2 data-i18n="about.title">J'aime les logiciels qui ont une vraie présence.</h2>
+    <section class="about section">
+      <div class="shell about-grid">
+        <div class="about-statement reveal">
+          <span class="section-index">05</span>
+          <h2 data-i18n="about.title">Je ne me définis pas vraiment par une stack.</h2>
         </div>
-        <div class="about-copy reveal">
-          <p class="about-lead" data-i18n="about.lead">Des systèmes RAG aux maisons 3D, mon fil conducteur est le même : comprendre un problème, construire l'architecture qui va bien, puis soigner suffisamment l'expérience pour que la technologie disparaisse derrière l'usage.</p>
-          <div class="principles">
-            <div><span>01</span><strong data-i18n="about.p1title">Construire pour être utilisé</strong><p data-i18n="about.p1copy">Un prototype devient intéressant quand il survit au monde réel : erreurs, déploiement, utilisateurs et maintenance compris.</p></div>
-            <div><span>02</span><strong data-i18n="about.p2title">Explorer sans rester en surface</strong><p data-i18n="about.p2copy">IA, 3D, domotique, mobile ou APIs : j'aime comprendre les couches techniques, pas seulement assembler une interface.</p></div>
-            <div><span>03</span><strong data-i18n="about.p3title">Garder une trace du chemin</strong><p data-i18n="about.p3copy">Les vieux projets sont imparfaits. C'est précisément pour ça qu'ils ont leur place ici.</p></div>
+        <div class="about-copy reveal reveal-delay">
+          <p class="about-big" data-i18n="about.lead">J'aime comprendre le problème, apprendre la couche technique qui me manque, puis pousser l'idée jusqu'à ce qu'elle fonctionne vraiment.</p>
+          <p data-i18n="about.copy">Parfois ça donne un système RAG. Parfois une maison en Three.js. Parfois un projet vieux de six ans que je garde simplement parce qu'il raconte une étape du parcours.</p>
+          <div class="about-links">
+            <a href="https://github.com/MestrieEsteban" target="_blank" rel="noreferrer">GitHub ↗</a>
+            <a href="#archive" data-i18n="about.archive">Tous les projets ↓</a>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="contact-section">
-      <div class="section-shell contact-card reveal">
-        <span class="section-kicker" data-i18n="contact.kicker">One more thing</span>
-        <h2 data-i18n="contact.title">Un projet étrange, utile ou ambitieux ? Ça m'intéresse.</h2>
-        <p data-i18n="contact.copy">Je reste curieux des projets où l'IA, le produit et l'ingénierie se rencontrent — surtout quand le problème n'a pas encore de réponse évidente.</p>
-        <div class="contact-actions">
-          <a class="button button-primary" href="https://github.com/MestrieEsteban" target="_blank" rel="noreferrer">GitHub ↗</a>
-          <a class="button button-ghost" href="#archive" data-i18n="contact.projects">Revoir les projets</a>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer section-shell">
-    <div><strong>Esteban Mestrie</strong><span data-i18n="footer.role">Generative AI & Creative Engineering</span></div>
-    <span>© <span id="currentYear"></span></span>
-    <a href="#top" data-i18n="footer.backTop">Retour en haut ↑</a>
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div>
+        <strong>Esteban Mestrie</strong>
+        <span data-i18n="footer.role">Développeur · IA · interfaces · idées étranges</span>
+      </div>
+      <p data-i18n="footer.note">Conçu comme un projet, pas comme un template.</p>
+      <a href="#top" data-i18n="footer.top">Retour en haut ↑</a>
+    </div>
   </footer>
-
-  <script src="app.js" defer></script>
 </body>
 </html>
