@@ -1,260 +1,304 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
-
 const canvas = document.querySelector('#world');
 const stage = document.querySelector('#threeStage');
 
 if (canvas && stage) {
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-  camera.position.set(5.1, 3.6, 7.2);
-  camera.lookAt(0, 0, 0);
+  stage.style.position = 'relative';
+  stage.style.minHeight = '560px';
+  stage.style.overflow = 'hidden';
 
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: true,
-    alpha: true,
-    powerPreference: 'high-performance'
+  Object.assign(canvas.style, {
+    position: 'absolute',
+    inset: '0',
+    width: '100%',
+    height: '100%',
+    display: 'block',
+    zIndex: '1'
   });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.8));
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-  const ink = new THREE.Color('#191917');
-  const paper = new THREE.Color('#f2efe7');
-  const paper2 = new THREE.Color('#ded8cd');
-  const accent = new THREE.Color('#ff5b36');
-  const blue = new THREE.Color('#3455ff');
-  const green = new THREE.Color('#3c6f57');
+  [...stage.children].forEach((node) => {
+    if (node !== canvas) {
+      node.style.zIndex = '3';
+      if (getComputedStyle(node).position === 'static') node.style.position = 'relative';
+    }
+  });
 
-  scene.add(new THREE.HemisphereLight(0xfff9ee, 0x777066, 2.6));
-  const key = new THREE.DirectionalLight(0xffffff, 3.2);
-  key.position.set(5, 8, 4);
-  scene.add(key);
+  const status = stage.querySelector('.stage-status');
 
-  const root = new THREE.Group();
-  root.rotation.x = -0.04;
-  root.rotation.y = -0.18;
-  scene.add(root);
+  const fail = (error) => {
+    console.error('Three.js scene failed:', error);
+    stage.dataset.webgl = 'error';
+    if (status) {
+      status.innerHTML = '<i style="background:#c94b35"></i> fallback';
+    }
 
-  // A drafting-table grid: intentionally physical rather than sci-fi.
-  const grid = new THREE.GridHelper(10, 20, 0x8d887f, 0xc4beb3);
-  grid.position.y = -1.45;
-  grid.material.transparent = true;
-  grid.material.opacity = 0.42;
-  root.add(grid);
-
-  const lineMaterial = new THREE.LineBasicMaterial({color: ink});
-  const softLineMaterial = new THREE.LineBasicMaterial({color: 0x8e897f, transparent: true, opacity: 0.6});
-
-  function edgeBox(width, height, depth, material = lineMaterial) {
-    const geometry = new THREE.EdgesGeometry(new THREE.BoxGeometry(width, height, depth));
-    return new THREE.LineSegments(geometry, material);
-  }
-
-  // 01 — HOME: a small wireframe house, nodding to Owlnest.
-  const house = new THREE.Group();
-  house.position.set(-0.85, -0.28, -0.55);
-  house.rotation.y = 0.18;
-
-  const houseBody = edgeBox(2.6, 1.7, 2.05);
-  house.add(houseBody);
-
-  const roofPoints = [
-    new THREE.Vector3(-1.3, 0.85, -1.025), new THREE.Vector3(0, 1.72, -1.025),
-    new THREE.Vector3(0, 1.72, -1.025), new THREE.Vector3(1.3, 0.85, -1.025),
-    new THREE.Vector3(-1.3, 0.85, 1.025), new THREE.Vector3(0, 1.72, 1.025),
-    new THREE.Vector3(0, 1.72, 1.025), new THREE.Vector3(1.3, 0.85, 1.025),
-    new THREE.Vector3(0, 1.72, -1.025), new THREE.Vector3(0, 1.72, 1.025)
-  ];
-  const roofGeometry = new THREE.BufferGeometry().setFromPoints(roofPoints);
-  house.add(new THREE.LineSegments(roofGeometry, lineMaterial));
-
-  const roomFloor = new THREE.Mesh(
-    new THREE.PlaneGeometry(2.4, 1.85),
-    new THREE.MeshBasicMaterial({color: paper, transparent: true, opacity: 0.62, side: THREE.DoubleSide})
-  );
-  roomFloor.rotation.x = -Math.PI / 2;
-  roomFloor.position.y = -0.84;
-  house.add(roomFloor);
-
-  const warmLamp = new THREE.Mesh(
-    new THREE.SphereGeometry(0.12, 20, 20),
-    new THREE.MeshStandardMaterial({color: accent, emissive: accent, emissiveIntensity: 0.28, roughness: 0.65})
-  );
-  warmLamp.position.set(0.62, 0.15, 0.35);
-  house.add(warmLamp);
-
-  const door = edgeBox(0.55, 1.05, 0.03, softLineMaterial);
-  door.position.set(-0.55, -0.32, 1.04);
-  house.add(door);
-  root.add(house);
-
-  // 02 — MUSIC: a tactile little vinyl record and tonearm.
-  const recordGroup = new THREE.Group();
-  recordGroup.position.set(1.62, -0.55, 0.62);
-  recordGroup.rotation.set(-0.78, 0.18, -0.12);
-
-  const record = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.74, 0.74, 0.075, 72),
-    new THREE.MeshStandardMaterial({color: 0x1d1d1b, roughness: 0.34, metalness: 0.08})
-  );
-  record.rotation.x = Math.PI / 2;
-  recordGroup.add(record);
-
-  const label = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.19, 0.19, 0.08, 40),
-    new THREE.MeshStandardMaterial({color: accent, roughness: 0.8})
-  );
-  label.rotation.x = Math.PI / 2;
-  label.position.z = 0.012;
-  recordGroup.add(label);
-
-  const hole = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.025, 0.025, 0.095, 20),
-    new THREE.MeshBasicMaterial({color: paper})
-  );
-  hole.rotation.x = Math.PI / 2;
-  hole.position.z = 0.02;
-  recordGroup.add(hole);
-
-  const arm = new THREE.Mesh(
-    new THREE.BoxGeometry(0.055, 0.055, 0.92),
-    new THREE.MeshStandardMaterial({color: 0xbcb6aa, metalness: 0.35, roughness: 0.45})
-  );
-  arm.position.set(0.62, 0.13, 0.18);
-  arm.rotation.y = -0.52;
-  recordGroup.add(arm);
-  root.add(recordGroup);
-
-  // 03 — CODE: a pair of old-school interface panels.
-  const codeGroup = new THREE.Group();
-  codeGroup.position.set(1.45, 0.92, -1.02);
-  codeGroup.rotation.set(-0.06, -0.38, 0.04);
-
-  function makePanel(width, height, color, lineColor) {
-    const group = new THREE.Group();
-    const face = new THREE.Mesh(
-      new THREE.PlaneGeometry(width, height),
-      new THREE.MeshBasicMaterial({color, transparent: true, opacity: 0.78, side: THREE.DoubleSide})
-    );
-    group.add(face);
-    const outline = new THREE.LineSegments(
-      new THREE.EdgesGeometry(new THREE.PlaneGeometry(width, height)),
-      new THREE.LineBasicMaterial({color: ink})
-    );
-    outline.position.z = 0.006;
-    group.add(outline);
-
-    const widths = [0.64, 0.42, 0.77, 0.53];
-    widths.forEach((ratio, index) => {
-      const bar = new THREE.Mesh(
-        new THREE.BoxGeometry(width * ratio, 0.035, 0.012),
-        new THREE.MeshBasicMaterial({color: lineColor})
-      );
-      bar.position.set(-width * (1 - ratio) * 0.38, height * 0.24 - index * 0.16, 0.014);
-      group.add(bar);
+    const fallback = document.createElement('div');
+    fallback.setAttribute('aria-hidden', 'true');
+    Object.assign(fallback.style, {
+      position: 'absolute', inset: '0', zIndex: '1', pointerEvents: 'none',
+      background: 'linear-gradient(145deg,#e6e0d5,#f5f2eb)'
     });
-    return group;
-  }
+    fallback.innerHTML = `
+      <svg viewBox="0 0 800 620" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+        <g fill="none" stroke="#1b1a18" stroke-width="4" opacity=".9">
+          <path d="M115 390L305 280L470 360L278 474Z"/>
+          <path d="M115 390V250L280 154L470 235V360"/>
+          <path d="M115 250L278 342L470 235"/>
+          <path d="M278 342V474"/>
+        </g>
+        <circle cx="585" cy="390" r="94" fill="#1b1a18"/>
+        <circle cx="585" cy="390" r="27" fill="#f05d3e"/>
+        <rect x="490" y="115" width="210" height="145" rx="8" fill="#f8f5ef" stroke="#1b1a18" stroke-width="4"/>
+        <path d="M520 155H655M520 185H610M520 215H670" stroke="#3455ff" stroke-width="8"/>
+        <circle cx="220" cy="210" r="13" fill="#f05d3e"/>
+      </svg>`;
+    stage.prepend(fallback);
+  };
 
-  const panelA = makePanel(1.42, 1.05, paper, blue);
-  codeGroup.add(panelA);
-  const panelB = makePanel(1.08, 0.78, paper2, green);
-  panelB.position.set(0.6, -0.62, -0.3);
-  panelB.rotation.y = -0.16;
-  codeGroup.add(panelB);
-  root.add(codeGroup);
+  (async () => {
+    try {
+      if (!window.WebGLRenderingContext) throw new Error('WebGL unavailable');
 
-  // Loose objects make the scene feel like a workbench, not a logo animation.
-  const loose = new THREE.Group();
-  const pebbleMaterial = new THREE.MeshStandardMaterial({color: 0x767168, roughness: 0.85});
-  const accentMaterial = new THREE.MeshStandardMaterial({color: accent, roughness: 0.75});
-  const blueMaterial = new THREE.MeshStandardMaterial({color: blue, roughness: 0.7});
+      const THREE = await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.min.js');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const pebbleA = new THREE.Mesh(new THREE.IcosahedronGeometry(0.2, 0), pebbleMaterial);
-  pebbleA.position.set(-2.1, 0.75, 1.15);
-  loose.add(pebbleA);
-  const pebbleB = new THREE.Mesh(new THREE.IcosahedronGeometry(0.13, 0), accentMaterial);
-  pebbleB.position.set(2.1, 1.48, 0.15);
-  loose.add(pebbleB);
-  const cube = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.26, 0.26), blueMaterial);
-  cube.position.set(0.25, 1.9, 0.25);
-  cube.rotation.set(0.4, 0.7, 0.2);
-  loose.add(cube);
-  root.add(loose);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
+      camera.position.set(6.2, 4.4, 8.4);
+      camera.lookAt(0, 0.15, 0);
 
-  const pointer = {x: 0, y: 0};
-  const target = {x: 0, y: -0.18};
-  let spinKick = 0;
-  let lastTime = performance.now();
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance'
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setClearColor(0x000000, 0);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
 
-  function onPointerMove(event) {
-    const bounds = stage.getBoundingClientRect();
-    pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
-    pointer.y = ((event.clientY - bounds.top) / bounds.height) * 2 - 1;
-    target.y = -0.18 + pointer.x * 0.22;
-    target.x = -pointer.y * 0.09;
-    if (reduceMotion) render();
-  }
+      scene.add(new THREE.HemisphereLight(0xfffbf3, 0x5f5a52, 3.4));
+      const sun = new THREE.DirectionalLight(0xffffff, 4.2);
+      sun.position.set(5, 7, 6);
+      scene.add(sun);
 
-  function onPointerLeave() {
-    target.x = 0;
-    target.y = -0.18;
-  }
+      const root = new THREE.Group();
+      root.rotation.set(-0.08, -0.22, 0);
+      scene.add(root);
 
-  function onClick() {
-    if (!reduceMotion) spinKick += 0.28;
-  }
+      const ink = 0x1d1c19;
+      const paper = 0xede8dd;
+      const accent = 0xf05d3e;
+      const blue = 0x3455ff;
+      const green = 0x3f745c;
 
-  stage.addEventListener('pointermove', onPointerMove, {passive:true});
-  stage.addEventListener('pointerleave', onPointerLeave);
-  stage.addEventListener('click', onClick);
+      const base = new THREE.Mesh(
+        new THREE.BoxGeometry(7.4, 0.12, 5.2),
+        new THREE.MeshStandardMaterial({ color: 0xd9d2c6, roughness: 0.95 })
+      );
+      base.position.y = -1.38;
+      root.add(base);
 
-  function resize() {
-    const rect = stage.getBoundingClientRect();
-    const width = Math.max(1, rect.width);
-    const height = Math.max(1, rect.height);
-    renderer.setSize(width, height, false);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    render();
-  }
+      const grid = new THREE.GridHelper(7.2, 14, 0x5d5952, 0xa9a298);
+      grid.position.y = -1.305;
+      grid.material.transparent = true;
+      grid.material.opacity = 0.34;
+      root.add(grid);
 
-  const resizeObserver = new ResizeObserver(resize);
-  resizeObserver.observe(stage);
+      const lineMaterial = new THREE.LineBasicMaterial({ color: ink });
+      const softLineMaterial = new THREE.LineBasicMaterial({ color: 0x777168, transparent: true, opacity: 0.72 });
 
-  function render() {
-    renderer.render(scene, camera);
-  }
+      const edgeBox = (w, h, d, material = lineMaterial) => {
+        const edges = new THREE.EdgesGeometry(new THREE.BoxGeometry(w, h, d));
+        return new THREE.LineSegments(edges, material);
+      };
 
-  function animate(now) {
-    const dt = Math.min((now - lastTime) / 1000, 0.05);
-    lastTime = now;
+      // HOUSE / Owlnest
+      const house = new THREE.Group();
+      house.position.set(-1.05, -0.25, -0.45);
+      house.rotation.y = 0.18;
 
-    root.rotation.x += (target.x - root.rotation.x) * 0.045;
-    root.rotation.y += (target.y - root.rotation.y) * 0.045;
-    root.rotation.y += spinKick * dt;
-    spinKick *= 0.955;
+      const shell = new THREE.Mesh(
+        new THREE.BoxGeometry(2.7, 1.72, 2.12),
+        new THREE.MeshStandardMaterial({ color: paper, transparent: true, opacity: 0.42, roughness: 1 })
+      );
+      house.add(shell);
+      house.add(edgeBox(2.7, 1.72, 2.12));
 
-    record.rotation.z -= dt * 0.38;
-    pebbleA.rotation.x += dt * 0.25;
-    pebbleA.rotation.y += dt * 0.18;
-    pebbleB.rotation.x -= dt * 0.22;
-    cube.rotation.x += dt * 0.18;
-    cube.rotation.y += dt * 0.23;
+      const roofPts = [
+        [-1.35,.86,-1.06],[0,1.72,-1.06], [0,1.72,-1.06],[1.35,.86,-1.06],
+        [-1.35,.86,1.06],[0,1.72,1.06], [0,1.72,1.06],[1.35,.86,1.06],
+        [0,1.72,-1.06],[0,1.72,1.06]
+      ].map((p) => new THREE.Vector3(...p));
+      house.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(roofPts), lineMaterial));
 
-    const breathe = Math.sin(now * 0.0013) * 0.035;
-    codeGroup.position.y = 0.92 + breathe;
-    warmLamp.scale.setScalar(1 + Math.sin(now * 0.0021) * 0.08);
+      const door = edgeBox(.58, 1.08, .035, softLineMaterial);
+      door.position.set(-.62, -.28, 1.075);
+      house.add(door);
 
-    render();
-    requestAnimationFrame(animate);
-  }
+      const lamp = new THREE.Mesh(
+        new THREE.SphereGeometry(.13, 24, 24),
+        new THREE.MeshStandardMaterial({ color: accent, emissive: accent, emissiveIntensity: 1.4, roughness: .5 })
+      );
+      lamp.position.set(.62, .12, .42);
+      house.add(lamp);
+      root.add(house);
 
-  resize();
-  if (reduceMotion) {
-    render();
-  } else {
-    requestAnimationFrame(animate);
-  }
+      // VINYL / Groove Card
+      const vinylGroup = new THREE.Group();
+      vinylGroup.position.set(1.75, -.62, .75);
+      vinylGroup.rotation.set(-.7, .18, -.15);
+
+      const record = new THREE.Mesh(
+        new THREE.CylinderGeometry(.82, .82, .085, 80),
+        new THREE.MeshStandardMaterial({ color: ink, roughness: .28, metalness: .18 })
+      );
+      record.rotation.x = Math.PI / 2;
+      vinylGroup.add(record);
+
+      const recordLabel = new THREE.Mesh(
+        new THREE.CylinderGeometry(.22, .22, .092, 42),
+        new THREE.MeshStandardMaterial({ color: accent, roughness: .8 })
+      );
+      recordLabel.rotation.x = Math.PI / 2;
+      recordLabel.position.z = .012;
+      vinylGroup.add(recordLabel);
+
+      const tonearm = new THREE.Mesh(
+        new THREE.BoxGeometry(.06, .06, 1.02),
+        new THREE.MeshStandardMaterial({ color: 0xc9c1b5, roughness: .35, metalness: .45 })
+      );
+      tonearm.position.set(.73, .14, .13);
+      tonearm.rotation.y = -.55;
+      vinylGroup.add(tonearm);
+      root.add(vinylGroup);
+
+      // CODE PANELS
+      const codeGroup = new THREE.Group();
+      codeGroup.position.set(1.35, 1.02, -1.18);
+      codeGroup.rotation.set(-.05, -.34, .03);
+
+      const makePanel = (w, h, faceColor, barColor) => {
+        const group = new THREE.Group();
+        const face = new THREE.Mesh(
+          new THREE.PlaneGeometry(w, h),
+          new THREE.MeshStandardMaterial({ color: faceColor, roughness: .95, side: THREE.DoubleSide })
+        );
+        group.add(face);
+        const border = new THREE.LineSegments(
+          new THREE.EdgesGeometry(new THREE.PlaneGeometry(w, h)),
+          new THREE.LineBasicMaterial({ color: ink })
+        );
+        border.position.z = .006;
+        group.add(border);
+
+        [.72,.47,.82,.58].forEach((ratio, index) => {
+          const bar = new THREE.Mesh(
+            new THREE.BoxGeometry(w * ratio, .045, .018),
+            new THREE.MeshBasicMaterial({ color: barColor })
+          );
+          bar.position.set(-w * (1-ratio) * .36, h * .27 - index * .17, .02);
+          group.add(bar);
+        });
+        return group;
+      };
+
+      const panelA = makePanel(1.5, 1.08, 0xf4f0e7, blue);
+      codeGroup.add(panelA);
+      const panelB = makePanel(1.08, .76, 0xd9d3c8, green);
+      panelB.position.set(.62, -.63, -.3);
+      panelB.rotation.y = -.18;
+      codeGroup.add(panelB);
+      root.add(codeGroup);
+
+      // small physical objects
+      const orangePebble = new THREE.Mesh(
+        new THREE.IcosahedronGeometry(.18, 0),
+        new THREE.MeshStandardMaterial({ color: accent, roughness: .8 })
+      );
+      orangePebble.position.set(-2.15, .85, .95);
+      root.add(orangePebble);
+
+      const blueCube = new THREE.Mesh(
+        new THREE.BoxGeometry(.3, .3, .3),
+        new THREE.MeshStandardMaterial({ color: blue, roughness: .72 })
+      );
+      blueCube.position.set(.12, 1.95, .2);
+      blueCube.rotation.set(.5,.7,.2);
+      root.add(blueCube);
+
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(.34, .055, 18, 64),
+        new THREE.MeshStandardMaterial({ color: green, roughness: .7 })
+      );
+      ring.position.set(-2.2, -.25, -1.25);
+      ring.rotation.set(.9,.2,.5);
+      root.add(ring);
+
+      let targetX = -.08;
+      let targetY = -.22;
+      let kick = 0;
+      let last = performance.now();
+
+      const resize = () => {
+        const rect = stage.getBoundingClientRect();
+        const width = Math.max(320, rect.width);
+        const height = Math.max(420, rect.height);
+        renderer.setSize(width, height, false);
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.render(scene, camera);
+      };
+
+      const pointerMove = (event) => {
+        const rect = stage.getBoundingClientRect();
+        const px = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        const py = ((event.clientY - rect.top) / rect.height) * 2 - 1;
+        targetY = -.22 + px * .28;
+        targetX = -.08 - py * .12;
+        if (reduceMotion) renderer.render(scene, camera);
+      };
+
+      stage.addEventListener('pointermove', pointerMove, { passive: true });
+      stage.addEventListener('pointerleave', () => { targetX = -.08; targetY = -.22; });
+      stage.addEventListener('click', () => { if (!reduceMotion) kick += .34; });
+
+      const observer = new ResizeObserver(resize);
+      observer.observe(stage);
+      window.addEventListener('resize', resize, { passive: true });
+
+      stage.dataset.webgl = 'ready';
+      if (status) status.innerHTML = '<i></i> live';
+      resize();
+
+      const animate = (now) => {
+        const dt = Math.min((now - last) / 1000, .05);
+        last = now;
+
+        root.rotation.x += (targetX - root.rotation.x) * .055;
+        root.rotation.y += (targetY - root.rotation.y) * .055;
+        root.rotation.y += kick * dt;
+        kick *= .95;
+
+        record.rotation.z -= dt * .48;
+        orangePebble.rotation.x += dt * .34;
+        orangePebble.rotation.y += dt * .22;
+        blueCube.rotation.x += dt * .22;
+        blueCube.rotation.y += dt * .29;
+        ring.rotation.z += dt * .17;
+        codeGroup.position.y = 1.02 + Math.sin(now * .0014) * .045;
+        lamp.scale.setScalar(1 + Math.sin(now * .0022) * .08);
+
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      };
+
+      if (!reduceMotion) requestAnimationFrame(animate);
+    } catch (error) {
+      fail(error);
+    }
+  })();
 }
