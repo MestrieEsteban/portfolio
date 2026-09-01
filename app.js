@@ -4,12 +4,12 @@ const API_URL = `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&
 const translations = {
   fr: {
     'nav.selected':'Projets','nav.work':'Ce que je fais','nav.archive':'Archive','nav.journey':'Parcours',
-    'hero.kicker':'Développeur · IA générative · open source',
-    'hero.line1':'Je construis des','hero.line2':'choses utiles','hero.line3':'et parfois un peu bizarres.',
-    'hero.lead':"Au travail, je conçois et industrialise des applications basées sur des modèles de langage. À côté, je transforme des idées en projets — maison 3D, interfaces domotiques, expériences web — juste pour voir jusqu'où elles peuvent aller.",
-    'hero.primary':'Voir ce que je construis','hero.secondary':'Fouiller dans tous les projets',
+    'hero.kicker':'Développeur · IA générative · interfaces interactives',
+    'hero.line1':'Je conçois des','hero.line2':'produits logiciels','hero.line3':"de l’IA aux interfaces 3D.",
+    'hero.lead':"Mon travail se concentre aujourd’hui sur les applications d’IA générative. Mes projets personnels explorent aussi la 3D, Home Assistant, les interfaces et les outils web. Ici, je montre les deux — ainsi que tout ce qui m’y a amené.",
+    'hero.primary':'Voir les projets','hero.secondary':'Explorer toute l’archive',
     'stats.repos':'dépôts publics','stats.years':'années de projets','stats.stars':'étoiles GitHub',
-    'stage.title':'Un petit bout de mon cerveau en WebGL.','stage.hint':'Bouge la souris. La scène réagit.',
+    'stage.title':'Quelques projets, en 3D.','stage.hint':'Déplace la souris pour explorer la scène.',
     'selected.kicker':'Quelques projets dont je suis fier','selected.title':'Ceux que je montrerais en premier.',
     'selected.copy':"Pas forcément les plus gros. Ceux qui racontent le mieux ce que j'aime construire aujourd'hui.",
     'project.owlnest':"Une maison 3D vivante dans Home Assistant. Lumières synchronisées, météo, vues caméra, interactions, éditeur visuel et moteur de règles : l'idée était de sortir du floorplan statique et d'en faire une vraie interface.",
@@ -37,16 +37,16 @@ const translations = {
     'about.lead':"J'aime comprendre le problème, apprendre la couche technique qui me manque, puis pousser l'idée jusqu'à ce qu'elle fonctionne vraiment.",
     'about.copy':"Parfois ça donne un système RAG. Parfois une maison en Three.js. Parfois un projet vieux de six ans que je garde simplement parce qu'il raconte une étape du parcours.",
     'about.archive':'Tous les projets ↓',
-    'footer.role':'Développeur · IA · interfaces · idées étranges','footer.note':'Conçu comme un projet, pas comme un template.','footer.top':'Retour en haut ↑'
+    'footer.role':'Développeur · IA · interfaces · open source','footer.note':'Conçu comme un projet, pas comme un template.','footer.top':'Retour en haut ↑'
   },
   en: {
     'nav.selected':'Projects','nav.work':'What I do','nav.archive':'Archive','nav.journey':'Journey',
-    'hero.kicker':'Developer · generative AI · open source',
-    'hero.line1':'I build','hero.line2':'useful things','hero.line3':'and sometimes slightly weird ones.',
-    'hero.lead':'At work, I design and productionize applications built on language models. On the side, I turn ideas into projects — 3D homes, home-automation interfaces, web experiments — mostly to see how far they can go.',
-    'hero.primary':'See what I build','hero.secondary':'Dig through every project',
+    'hero.kicker':'Developer · generative AI · interactive interfaces',
+    'hero.line1':'I design','hero.line2':'software products','hero.line3':'from AI to 3D interfaces.',
+    'hero.lead':'My work currently focuses on generative AI applications. My personal projects also explore 3D, Home Assistant, interfaces and web tools. This portfolio shows both — and everything that led there.',
+    'hero.primary':'See the projects','hero.secondary':'Explore the full archive',
     'stats.repos':'public repositories','stats.years':'years of projects','stats.stars':'GitHub stars',
-    'stage.title':'A small piece of my brain in WebGL.','stage.hint':'Move your mouse. The scene reacts.',
+    'stage.title':'A few projects, in 3D.','stage.hint':'Move your mouse to explore the scene.',
     'selected.kicker':'A few projects I am proud of','selected.title':'The ones I would show first.',
     'selected.copy':'Not necessarily the biggest ones. The ones that best explain what I enjoy building today.',
     'project.owlnest':'A living 3D home inside Home Assistant. Synchronized lights, weather, camera views, interactions, a visual editor and a rules engine — built to move beyond the usual static floorplan.',
@@ -74,7 +74,7 @@ const translations = {
     'about.lead':'I like understanding the problem, learning whatever technical layer I am missing, then pushing the idea until it actually works.',
     'about.copy':'Sometimes that becomes a RAG system. Sometimes a house in Three.js. Sometimes a six-year-old project I keep simply because it represents a step in the journey.',
     'about.archive':'All projects ↓',
-    'footer.role':'Developer · AI · interfaces · strange ideas','footer.note':'Designed as a project, not a template.','footer.top':'Back to top ↑'
+    'footer.role':'Developer · AI · interfaces · open source','footer.note':'Designed as a project, not a template.','footer.top':'Back to top ↑'
   }
 };
 
